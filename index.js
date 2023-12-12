@@ -22,6 +22,31 @@ mongoose.connect(
     `mongodb+srv://${dbUser}:${dbPass}@cluster0.tcfnt.mongodb.net/?retryWrites=true&w=majority`
 )
 
+app.get('/livros', (req, res) => {
+
+    const { qtd } = req.query;
+
+    if (isNaN(Number(qtd))) {
+      return res.status(400).json({ error: 'A quantidade deve ser um número válido.' });
+    }
+  
+    const quantidadeLivros = Number(qtd);
+    const livros = [];
+  
+    for (let i = 0; i < quantidadeLivros; i++) {
+      livros.push({
+        titulo: `Livro ${i}`,
+        autor: `Autor ${i}`,
+      });
+    }
+  
+    const retorno = {
+      itens: livros,
+    };
+
+    res.status(200).json(retorno)
+});
+
 
 app.get('/', (req, res) => {
 
